@@ -34,15 +34,42 @@ function addToDo(toDo, id, done, trash) {
                     </li>
                 `;
 
-	// https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML
 	//  inserting created dynamic element
 	const toDoItemPosition = 'beforeend';
 	toDoList.insertAdjacentHTML(toDoItemPosition, item);
-};
+}
 
-// i have't created eventlistener so i am testing this function by passing parameter
-// addToDo('eating breakfast', 0, false, false);
-//  addToDo('eating breakfast', 0, true, false);
-//  addToDo('eating breakfast', 0, true, true);
+//- - -- - - -- - - - -- - -- -- - - -- - - - --- - - - -- - - -- - - - - -- - -  - - - - - - -
+
+//Adding a to-do to the list when the enter key is pressed
+document.addEventListener('keyup', displayToDo);
+
+//Adding a to-do to the list when plus icon is clicked
+ToDoAddBtn.addEventListener('click', displayToDo);
+
+// displayToDo function
+function displayToDo(event) {
+
+    if (event.keyCode === 13 || event.target.classList.value === 'fa fa-plus-circle') {
+
+        // getting input value 
+        const toDo = input.value;
+
+        //checking whether the input field is not empty
+        if(toDo) {
+            addToDo(toDo, id, false, false);
+            toDoConatainer.push({
+                name: toDo,
+                id: id,
+                done: false,
+                trash: false,
+            });
+
+            id++;
+        }
+
+        input.value = '';
+    }
+}
 
 //- - -- - - -- - - - -- - -- -- - - -- - - - --- - - - -- - - -- - - - - -- - -  - - - - - - -
