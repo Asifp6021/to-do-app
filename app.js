@@ -28,7 +28,7 @@ function addToDo(toDo, id, done, trash) {
 	// dynamic elemenents
 	const item = `
                     <li class="item">
-                        <i class="fa ${toDoDone} complete" status="compelte" id="${id}"></i>
+                        <i class="fa ${toDoDone} complete" status="complete" id="${id}"></i>
                         <p class="text ${toDoLine}">${toDo}</p>
                         <i class="fa fa-trash-o delete" status="delete" id="${id}"></i>
                     </li>
@@ -49,39 +49,47 @@ ToDoAddBtn.addEventListener('click', displayToDo);
 
 // displayToDo function
 function displayToDo(event) {
+	if (
+		event.keyCode === 13 ||
+		event.target.classList.value === 'fa fa-plus-circle'
+	) {
+		// getting input value
+		const toDo = input.value;
 
-    if (event.keyCode === 13 || event.target.classList.value === 'fa fa-plus-circle') {
+		//checking whether the input field is not empty
+		if (toDo) {
+			addToDo(toDo, id, false, false);
+			toDoConatainer.push({
+				name: toDo,
+				id: id,
+				done: false,
+				trash: false,
+			});
 
-        // getting input value 
-        const toDo = input.value;
+			id++;
+		}
 
-        //checking whether the input field is not empty
-        if(toDo) {
-            addToDo(toDo, id, false, false);
-            toDoConatainer.push({
-                name: toDo,
-                id: id,
-                done: false,
-                trash: false,
-            });
-
-            id++;
-        }
-
-        input.value = '';
-    }
+		input.value = '';
+	}
 }
 
 //- - - - - - -- - - - -- - -- -- - - -- - - - - - - - - - - - - - - - - - - - -- - -  - - - - - - -
 
 //Targetting the dynamically created to do items
-toDoList.addEventListener('click', function(event) {
-    const toDoItem = e.target;
-    const toDoStatus = toDoItem.attributes.status.value;
+toDoList.addEventListener('click', function (event) {
+	if (
+		event.target.localName === 'p' ||
+		event.target.localName === 'li' ||
+		event.target.localName === 'ul'
+	)
+		return;
 
-    if(toDoStatus === 'complete') {
-        completeToDo(toDoItem);
-    } else if (toDoStatus === 'delete') {
-        removeToDo(toDoItem);
-    }
-})
+	const toDoItem = event.target;
+	const toDoStatus = toDoItem.attributes.status.value;
+
+	if (toDoStatus === 'complete') {
+		completeToDo(toDoItem);
+	} else if (toDoStatus === 'delete') {
+		removeToDo(toDoItem);
+	}
+});
