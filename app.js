@@ -72,4 +72,16 @@ function displayToDo(event) {
     }
 }
 
-//- - -- - - -- - - - -- - -- -- - - -- - - - --- - - - -- - - -- - - - - -- - -  - - - - - - -
+//- - - - - - -- - - - -- - -- -- - - -- - - - - - - - - - - - - - - - - - - - -- - -  - - - - - - -
+
+//Targetting the dynamically created to do items
+toDoList.addEventListener('click', function(event) {
+    const toDoItem = e.target;
+    const toDoStatus = toDoItem.attributes.status.value;
+
+    if(toDoStatus === 'complete') {
+        completeToDo(toDoItem);
+    } else if (toDoStatus === 'delete') {
+        removeToDo(toDoItem);
+    }
+})
